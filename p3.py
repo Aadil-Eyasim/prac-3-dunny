@@ -158,7 +158,9 @@ def btn_increase_pressed(channel):
     GPIO.output(LED_value[2],0)
     
     # Increase the value shown on the LEDs
-    if guess>7:
+    if guess<=6:
+        guess += 1
+    else:
         guess = 0
 
     if (guess == 1):
