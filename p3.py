@@ -158,9 +158,8 @@ def btn_increase_pressed(channel):
     GPIO.output(LED_value[2],0)
     
     # Increase the value shown on the LEDs
-    if guess<=6:
-        guess += 1
-    else:
+    guess += 1
+    if guess > 7:    #ensure guess stays in range
         guess = 0
 
     if (guess == 1):
@@ -171,7 +170,6 @@ def btn_increase_pressed(channel):
 
     elif (guess == 3):
         GPIO.output(LED_value[2],1)
-
 
     elif (guess == 4):
         GPIO.output(LED_value[0],1)
@@ -203,8 +201,7 @@ def btn_guess_pressed(channel):
 
     if length > 3:
         #clear GPIO, reset game values, end game and go to menu
-        clear()
-        reset()
+        GPIO.cleanup()
         end_of_game = True
         menu()
         return
@@ -227,11 +224,13 @@ def btn_guess_pressed(channel):
 
     # if it's an exact guess:
     elif guess == value:
+    
     # - Disable LEDs and Buzzer
-        clear()
+    pwm_BUZZER.stop()
+    pwm_LED.stop()
 
     # - tell the user and prompt them for a name
-        name = input("You won. Enter your name: ") + "   "
+        name = input("You guessed right. Please enter your name: ") + "   "
         name = name[:3]
  
     # - fetch all the scores
@@ -247,20 +246,19 @@ def btn_guess_pressed(channel):
 
 # LED Brightness
 def accuracy_leds():
-    dc = 1.0
+    
     # Set the brightness of the LED based on how close the guess is to the answer
+
+    global guess, PWM_LED, value
+    PWM_LED.start(50)
     # - The % brightness should be directly proportional to the % "closeness"
     # - For example if the answer is 6 and a user guesses 4, the brightness should be at 4/6*100 = 66%
-    if guess<value:
-        dc = abs((float(guess)/value) * 100)
-    # - If they guessed 7, the brightness would be at ((8-7)/(8-6)*100 = 50%
+    if (guess <= value):
+        PWM_LED.ChangeDutyCycle(int(round((guess/value)*100)))
+    else:
+        PWM_LED.ChangeDutyCycle(int(round(((8-guess)/(8-value))*100)))
 
-    elif guess>value:
-        dc = abs(((8-float(guess))/(8-value))*100)
-
-    pwm_LED.start(dc)
-    pwm_LED.ChangeDutyCycle(dc)
-    pass
+pass
 
 # Sound Buzzer
 def trigger_buzzer():
