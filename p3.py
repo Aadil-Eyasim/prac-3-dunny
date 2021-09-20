@@ -261,7 +261,7 @@ def clear():
     GPIO.output(LED_value[1],0)
     GPIO.output(LED_value[2],0)
     pwm_LED.stop()
-    pwm_BUZ.stop()
+    pwm_BUZZER.stop()
     pass
 
 #reset values
