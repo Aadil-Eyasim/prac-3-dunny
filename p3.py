@@ -261,7 +261,7 @@ def accuracy_leds():
     # Set the brightness of the LED based on how close the guess is to the answer
 
     global guess, pwm_LED, value
-    pwn_LED.start(50)
+    pwm_LED.start(50)
     # - The % brightness should be directly proportional to the % "closeness"
     # - For example if the answer is 6 and a user guesses 4, the brightness should be at 4/6*100 = 66%
     if (guess <= value):
