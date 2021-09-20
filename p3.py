@@ -151,18 +151,55 @@ def generate_number():
 
 # Increase button pressed
 def btn_increase_pressed(channel):
-    
     # Increase the value shown on the LEDs
-    global guess
-    guess += 1
-    if guess > 7:    
+    # You can choose to have a global variable store the user's current guess,
+    # or just pull the value off the LEDs when a user makes a guess
+    global guess, LED_value
+    GPIO.output(LED_value[0],0)
+    GPIO.output(LED_value[1],0)
+    GPIO.output(LED_value[2],0)
+
+    if guess<=6:
+        guess +=1
+        print ("guess + 1 = ",guess)
+    else:
+#        print ("Max guess number set guess back to 0")
         guess = 0
 
-    GPIO.output(LED_value[0], (guess & 0b001)!=0)
-    GPIO.output(LED_value[1], (guess & 0b010)!=0)
-    GPIO.output(LED_value[2], (guess & 0b100)!=0)
-
-    pass
+    if (guess == 1):
+        GPIO.output(LED_value[0],1)
+        trigger_buzzer()
+        accuracy_leds()
+    elif (guess == 2):
+        GPIO.output(LED_value[1],1)
+        trigger_buzzer()
+        accuracy_leds()
+    elif (guess == 3):
+        GPIO.output(LED_value[0],1)
+        GPIO.output(LED_value[1],1)
+        trigger_buzzer()
+        accuracy_leds()
+    elif (guess == 4):
+        GPIO.output(LED_value[2],1)
+        trigger_buzzer()
+        accuracy_leds()
+    elif (guess == 5):
+        GPIO.output(LED_value[0],1)
+        GPIO.output(LED_value[2],1)
+        trigger_buzzer()
+        accuracy_leds()
+    elif (guess == 6):
+        GPIO.output(LED_value[1],1)
+        GPIO.output(LED_value[2],1)
+        trigger_buzzer()
+        accuracy_leds()
+    elif (guess ==7):
+        GPIO.output(LED_value[0],1)
+        GPIO.output(LED_value[1],1)
+        GPIO.output(LED_value[2],1)
+        trigger_buzzer()
+        accuracy_leds()
+pass
 
 
 # Guess button
@@ -173,7 +210,7 @@ def btn_guess_pressed(channel):
         time.sleep(0.02)
     length = time.time() - start
 
-    if length > 1.5:
+    if length > 3:
         #clear GPIO, reset game values, end game and go to menu
         clear()
         reset()
