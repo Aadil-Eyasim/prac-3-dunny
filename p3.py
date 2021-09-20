@@ -151,18 +151,14 @@ def generate_number():
 
 # Increase button pressed
 def btn_increase_pressed(channel):
-    # Increase the value shown on the LEDs
-    # You can choose to have a global variable store the user's current guess,
-    # or just pull the value off the LEDs when a user makes a guess
+    # Global variable storeing the user's current guess
     global guess, LED_value
     GPIO.output(LED_value[0],0)
     GPIO.output(LED_value[1],0)
     GPIO.output(LED_value[2],0)
-
-    if guess<=6:
-        guess +=1
-
-    else:
+    
+    # Increase the value shown on the LEDs
+    if guess>7:
         guess = 0
 
     if (guess == 1):
@@ -172,11 +168,12 @@ def btn_increase_pressed(channel):
         GPIO.output(LED_value[1],1)
 
     elif (guess == 3):
-        GPIO.output(LED_value[0],1)
-        GPIO.output(LED_value[1],1)
+        GPIO.output(LED_value[2],1)
+
 
     elif (guess == 4):
-        GPIO.output(LED_value[2],1)
+        GPIO.output(LED_value[0],1)
+        GPIO.output(LED_value[1],1)
 
     elif (guess == 5):
         GPIO.output(LED_value[0],1)
