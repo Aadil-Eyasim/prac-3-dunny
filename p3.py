@@ -36,7 +36,8 @@ def welcome():
 
 # Print the game menu
 def menu():
-    global end_of_game, value
+    global end_of_game
+    global value
     option = input("Select an option:   H - View High Scores     P - Play Game       Q - Quit\n")
     option = option.upper()
 
@@ -45,7 +46,8 @@ def menu():
         print("HIGH SCORES!!")
         s_count, ss = fetch_scores()
         display_scores(s_count, ss)
-
+        menu()
+        
     elif option == "P":
         os.system('clear')
         print("Starting a new round!")
