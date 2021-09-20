@@ -204,9 +204,6 @@ def btn_guess_pressed(channel):
     if length > 3:
         #clear GPIO, reset game values, end game and go to menu
         GPIO.cleanup()
-        GPIO.output(LED_value[0],0)
-        GPIO.output(LED_value[1],0)
-        GPIO.output(LED_value[2],0)
         pwm_LED.stop()
         pwm_BUZZER.stop()
         
