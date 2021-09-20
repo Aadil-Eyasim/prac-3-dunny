@@ -192,6 +192,10 @@ pass
 # Guess button
 def btn_guess_pressed(channel):
     # If they've pressed and held the button, clear up the GPIO and take them back to the menu screen
+    global n0_guesses
+    global guess
+    global value 
+    
     start = time.time()
     while GPIO.input(btn_submit) == GPIO.LOW:
         time.sleep(0.02)
@@ -206,9 +210,6 @@ def btn_guess_pressed(channel):
         pwm_LED.stop()
         pwm_BUZZER.stop()
         
-        global n0_guesses
-        global guess
-        global value 
         guess = 0
         n0_guesses = 0
         value = 0
@@ -218,10 +219,7 @@ def btn_guess_pressed(channel):
         return
 
     # Compare the actual value with the user value displayed on the LEDs
-    global guess
-    global n0_guesses
     n0_guesses += 1
-
     if (guess != value):
     # Change the PWM LED
         accuracy_leds()
