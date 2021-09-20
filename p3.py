@@ -131,15 +131,13 @@ def save_scores(name, n0_guesses):
     score_count += 1
 
     # write new scores
-    data_to_write =[]
-    for score in new_scores:
-
-   
+    new_score_list =[]
+    for score in new_scores:   
         for char in range(0,3):
-            data_to_write.append(ord(score[char]))
-        data_to_write.append(score[3])
+            new_score_list.append(ord(score[char]))
+        new_score_list.append(score[3])
 
-    eeprom.write_block(1, data_to_write)
+    eeprom.write_block(1, new_score_list)
     eeprom.write_byte(0,score_count)
     pass
 
@@ -202,19 +200,29 @@ def btn_guess_pressed(channel):
     if length > 3:
         #clear GPIO, reset game values, end game and go to menu
         GPIO.cleanup()
+        GPIO.output(LED_value[0],0)
+        GPIO.output(LED_value[1],0)
+        GPIO.output(LED_value[2],0)
+        pwm_LED.stop()
+        pwm_BUZZER.stop()
+        
+        global n0_guesses
+        global guess
+        global value 
+        guess = 0
+        n0_guesses = 0
+        value = 0
+        
         end_of_game = True
         menu()
         return
-
-    pwm_BUZZER.stop()
-    pwm_LED.stop()
 
     # Compare the actual value with the user value displayed on the LEDs
     global guess
     global n0_guesses
     n0_guesses += 1
-    if (guess != value):
 
+    if (guess != value):
     # Change the PWM LED
         accuracy_leds()
 
@@ -226,8 +234,11 @@ def btn_guess_pressed(channel):
     elif guess == value:
     
     # - Disable LEDs and Buzzer
-    pwm_BUZZER.stop()
-    pwm_LED.stop()
+        GPIO.output(LED_value[0],0)
+        GPIO.output(LED_value[1],0)
+        GPIO.output(LED_value[2],0)
+        pwm_LED.stop()
+        pwm_BUZZER.stop()
 
     # - tell the user and prompt them for a name
         name = input("You guessed right. Please enter your name: ") + "   "
@@ -238,7 +249,12 @@ def btn_guess_pressed(channel):
     # - sort the scores
     # - Store the scores back to the EEPROM, being sure to update the score count
         save_scores(name, n0_guesses)
-        reset()
+        global guesses
+        global guess
+        global value 
+        guess = 0
+        guesses = 0
+        value = 0
         end_of_game = True
         menu()
     pass
@@ -278,29 +294,6 @@ def trigger_buzzer():
         freq = 4.0
     pwm_BUZZER.start(dc)
     pwm_BUZZER.ChangeFrequency(freq)
-    pass
-
-
-def clear():
-
-    GPIO.output(LED_value[0],0)
-    GPIO.output(LED_value[1],0)
-    GPIO.output(LED_value[2],0)
-    pwm_LED.stop()
-    pwm_BUZZER.stop()
-    pass
-
-#reset values
-def reset():
-    global guesses
-    global guess
-    global play
-    global value 
-
-    guess = 0
-    guesses = 0
-    value = 0
-    play = False
     pass
 
 
