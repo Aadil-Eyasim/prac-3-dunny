@@ -161,44 +161,36 @@ def btn_increase_pressed(channel):
 
     if guess<=6:
         guess +=1
-        print ("guess + 1 = ",guess)
+
     else:
-#        print ("Max guess number set guess back to 0")
         guess = 0
 
     if (guess == 1):
         GPIO.output(LED_value[0],1)
-        trigger_buzzer()
-        accuracy_leds()
+
     elif (guess == 2):
         GPIO.output(LED_value[1],1)
-        trigger_buzzer()
-        accuracy_leds()
+
     elif (guess == 3):
         GPIO.output(LED_value[0],1)
         GPIO.output(LED_value[1],1)
-        trigger_buzzer()
-        accuracy_leds()
+
     elif (guess == 4):
         GPIO.output(LED_value[2],1)
-        trigger_buzzer()
-        accuracy_leds()
+
     elif (guess == 5):
         GPIO.output(LED_value[0],1)
         GPIO.output(LED_value[2],1)
-        trigger_buzzer()
-        accuracy_leds()
+
     elif (guess == 6):
         GPIO.output(LED_value[1],1)
         GPIO.output(LED_value[2],1)
-        trigger_buzzer()
-        accuracy_leds()
+
     elif (guess ==7):
         GPIO.output(LED_value[0],1)
         GPIO.output(LED_value[1],1)
         GPIO.output(LED_value[2],1)
-        trigger_buzzer()
-        accuracy_leds()
+
 pass
 
 
