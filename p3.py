@@ -247,11 +247,8 @@ def btn_guess_pressed(channel):
     # - sort the scores
     # - Store the scores back to the EEPROM, being sure to update the score count
         save_scores(name, n0_guesses)
-        global guesses
-        global guess
-        global value 
         guess = 0
-        guesses = 0
+        n0_guesses = 0
         value = 0
         end_of_game = True
         menu()
